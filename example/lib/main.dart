@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wallpaper Studio'),
+        title: const Text('Set Wallpaper'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
