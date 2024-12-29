@@ -1,19 +1,19 @@
-# 📱 Android Wallpaper Setter Plugin
+# 📱 **Set Wallpaper**
 
-A Flutter plugin for setting wallpapers on Android devices. Supports applying wallpapers to the **home screen**, **lock screen**, or **both**.
+A **Flutter plugin** for setting wallpapers on **Android devices**. Supports applying wallpapers to the **home screen**, **lock screen**, or **both** with a simple and intuitive API.
 
 ---
 
 ## 🚀 **Features**
-- Set wallpapers for **home screen**, **lock screen**, or **both**.
-- Simple and easy-to-use API.
-- Supports selecting images from the gallery.
-- Success and error notifications.
+- Set wallpapers for **Home Screen**, **Lock Screen**, or **Both**.
+- Simple and user-friendly API.
+- Image selection directly from the **gallery**.
+- Real-time success and error notifications.
 
 ---
 
 ## 🛠️ **Installation**
-Add to your `pubspec.yaml`:
+Add the following dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -21,14 +21,15 @@ dependencies:
   image_picker: ^1.0.7
 ```
 
-Run:
+Run the following command to fetch the packages:
+
 ```bash
 flutter pub get
 ```
 
 ---
 
-## 📚 **Usage**
+## 📚 **Usage Example**
 
 ```dart
 import 'dart:io';
@@ -36,12 +37,30 @@ import 'package:flutter/material.dart';
 import 'package:set_wallpaper/set_wallpaper.dart';
 import 'package:image_picker/image_picker.dart';
 
-class WallpaperScreen extends StatefulWidget {
-  @override
-  _WallpaperScreenState createState() => _WallpaperScreenState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _WallpaperScreenState extends State<WallpaperScreen> {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   String? _selectedImagePath;
 
   Future<void> _pickImage() async {
@@ -63,16 +82,24 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Wallpaper Setter')),
+      appBar: AppBar(title: const Text('Set Wallpaper')),
       body: Column(
         children: [
           ElevatedButton(
             onPressed: _pickImage,
-            child: Text('Pick Image'),
+            child: const Text('Pick Image'),
           ),
           ElevatedButton(
             onPressed: () => _setWallpaper(WallpaperType.home),
-            child: Text('Set Home Screen Wallpaper'),
+            child: const Text('Set Home Screen Wallpaper'),
+          ),
+          ElevatedButton(
+            onPressed: () => _setWallpaper(WallpaperType.lock),
+            child: const Text('Set Lock Screen Wallpaper'),
+          ),
+          ElevatedButton(
+            onPressed: () => _setWallpaper(WallpaperType.system),
+            child: const Text('Set Both Screens Wallpaper'),
           ),
         ],
       ),
@@ -81,7 +108,7 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
 }
 ```
 
-### Wallpaper Types
+### **Wallpaper Types:**
 - `WallpaperType.system`: Home & Lock screens.
 - `WallpaperType.home`: Home screen only.
 - `WallpaperType.lock`: Lock screen only.
@@ -89,12 +116,12 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
 ---
 
 ## 📝 **License**
-MIT License.
+This project is licensed under the **MIT License**.
 
 ---
 
 ## 🤝 **Contributing**
-Open an issue or pull request on [GitHub](https://github.com/your_repo).
+Feel free to contribute! Open an issue or submit a pull request on [GitHub](https://github.com/flenco-in/set_wallpaper).
 
 ---
 
