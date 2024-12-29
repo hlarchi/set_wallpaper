@@ -41,7 +41,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   String? _selectedImagePath;
   String _platformVersion = 'Unknown';
   bool _isLoading = false;
@@ -71,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   Future<void> _getPlatformVersion() async {
     try {
-      final version = await _setWallpaperPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      final version = await _setWallpaperPlugin.getPlatformVersion() ??
+          'Unknown platform version';
       setState(() {
         _platformVersion = version;
       });
@@ -235,7 +237,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     onPressed: _pickImage,
                     icon: const Icon(Icons.add_photo_alternate),
                     label: Text(
-                      _selectedImagePath == null ? 'Select Image' : 'Change Image',
+                      _selectedImagePath == null
+                          ? 'Select Image'
+                          : 'Change Image',
                       style: const TextStyle(fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -253,8 +257,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       'Set Wallpaper As:',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     const SizedBox(height: 16),
                     _WallpaperOptionButton(
