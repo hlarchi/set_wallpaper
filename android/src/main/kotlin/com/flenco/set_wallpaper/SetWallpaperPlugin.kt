@@ -11,11 +11,13 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
 
-class SetWallpaperPlugin: FlutterPlugin, MethodCallHandler {
+class SetWallpaperPlugin : FlutterPlugin, MethodCallHandler {
   private lateinit var channel: MethodChannel
   private lateinit var context: Context
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+  override fun onAttachedToEngine(
+          @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
+  ) {
     context = flutterPluginBinding.applicationContext
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "set_wallpaper")
     channel.setMethodCallHandler(this)
@@ -44,6 +46,17 @@ class SetWallpaperPlugin: FlutterPlugin, MethodCallHandler {
 
           val bitmap = BitmapFactory.decodeFile(imagePath)
           val wallpaperManager = WallpaperManager.getInstance(context)
+
+          // Get the display metrics to match screen dimensions
+          val displayMetrics = context.resources.displayMetrics
+          val width = displayMetrics.widthPixels
+          val height = displayMetrics.heightPixels
+
+          // Suggest dimensions to ensure proper scaling
+          wallpaperManager.suggestDesiredDimensions(width, height)
+
+          // Set the wallpaper with the visibleCrop parameter as null
+          // The third parameter (allowBackup) is set to true
           wallpaperManager.setBitmap(bitmap, null, true, wallpaperType)
 
           result.success(true)
