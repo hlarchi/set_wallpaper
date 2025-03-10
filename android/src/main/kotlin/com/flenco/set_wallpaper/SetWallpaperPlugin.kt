@@ -45,8 +45,12 @@ class SetWallpaperPlugin : FlutterPlugin, MethodCallHandler {
           }
 
           val bitmap = BitmapFactory.decodeFile(imagePath)
-          val wallpaperManager = WallpaperManager.getInstance(context)
+          if (bitmap == null) {
+            result.error("INVALID_IMAGE", "Could not decode image", null)
+            return
+          }
 
+          val wallpaperManager = WallpaperManager.getInstance(context)
           // Get the display metrics to match screen dimensions
           val displayMetrics = context.resources.displayMetrics
           val width = displayMetrics.widthPixels
@@ -58,7 +62,6 @@ class SetWallpaperPlugin : FlutterPlugin, MethodCallHandler {
           // Set the wallpaper with the visibleCrop parameter as null
           // The third parameter (allowBackup) is set to true
           wallpaperManager.setBitmap(bitmap, null, true, wallpaperType)
-
           result.success(true)
         } catch (e: Exception) {
           result.error("SET_WALLPAPER_ERROR", e.message, null)
