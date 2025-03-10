@@ -11,13 +11,11 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
 
-class SetWallpaperPlugin : FlutterPlugin, MethodCallHandler {
+class SetWallpaperPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel: MethodChannel
   private lateinit var context: Context
 
-  override fun onAttachedToEngine(
-          @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
-  ) {
+  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     context = flutterPluginBinding.applicationContext
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "set_wallpaper")
     channel.setMethodCallHandler(this)
@@ -45,23 +43,35 @@ class SetWallpaperPlugin : FlutterPlugin, MethodCallHandler {
           }
 
           val bitmap = BitmapFactory.decodeFile(imagePath)
-          if (bitmap == null) {
-            result.error("INVALID_IMAGE", "Could not decode image", null)
-            return
-          }
-
           val wallpaperManager = WallpaperManager.getInstance(context)
+          
           // Get the display metrics to match screen dimensions
           val displayMetrics = context.resources.displayMetrics
           val width = displayMetrics.widthPixels
           val height = displayMetrics.heightPixels
-
-          // Suggest dimensions to ensure proper scaling
+          
+          // Suggest dimensions to the wallpaper manager
           wallpaperManager.suggestDesiredDimensions(width, height)
+          
+          // Create a rect for cropping that matches the display aspect ratio
+          val displayRatio = height.toFloat() / width.toFloat()
+          val bitmapRatio = bitmap.height.toFloat() / bitmap.width.toFloat()
 
-          // Set the wallpaper with the visibleCrop parameter as null
-          // The third parameter (allowBackup) is set to true
-          wallpaperManager.setBitmap(bitmap, null, true, wallpaperType)
+          val visibleCropHint = if (bitmapRatio > displayRatio) {
+              // Image is taller than screen, crop top and bottom
+              val cropHeight = (bitmap.width * displayRatio).toInt()
+              val y = (bitmap.height - cropHeight) / 2
+              android.graphics.Rect(0, y, bitmap.width, y + cropHeight)
+          } else {
+              // Image is wider than screen, crop sides
+              val cropWidth = (bitmap.height / displayRatio).toInt()
+              val x = (bitmap.width - cropWidth) / 2
+              android.graphics.Rect(x, 0, x + cropWidth, bitmap.height)
+          }
+
+          // Set the wallpaper with the calculated crop rect
+          wallpaperManager.setBitmap(bitmap, visibleCropHint, true, wallpaperType)
+
           result.success(true)
         } catch (e: Exception) {
           result.error("SET_WALLPAPER_ERROR", e.message, null)
