@@ -32,7 +32,7 @@ class SetWallpaper {
   static int _getWallpaperFlag(WallpaperType type) {
     switch (type) {
       case WallpaperType.system:
-        return 1; // WallpaperManager.FLAG_SYSTEM
+        return 3; // WallpaperManager.FLAG_SYSTEM (1) | WallpaperManager.FLAG_LOCK (2)
       case WallpaperType.home:
         return 1; // WallpaperManager.FLAG_SYSTEM
       case WallpaperType.lock:
