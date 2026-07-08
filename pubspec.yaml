@@ -1,11 +1,11 @@
 name: set_wallpaper
 description: "A Flutter plugin for setting wallpapers on Android devices seamlessly, supporting home screen, lock screen, and both."
-version: 0.0.2
-homepage: https://flenco.in
+version: 0.0.3
+homepage: https://tanja.app
 
 environment:
   sdk: ^3.6.0
-  flutter: '>=3.3.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -36,8 +36,6 @@ flutter:
     platforms:
       android:
         package: com.flenco.set_wallpaper
-        pluginClass: SetWallpaperPlugin
-      ios:
         pluginClass: SetWallpaperPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
